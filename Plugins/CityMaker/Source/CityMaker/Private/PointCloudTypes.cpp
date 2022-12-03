@@ -9,3 +9,8 @@ bool FBasePointCloud::ParseFromPreparedALembic(int32 PointIndex, const TArray<FT
 
 	return true;
 }
+
+void FCityPointClouds::Clear()
+{
+	BasePoints.Empty();
+}

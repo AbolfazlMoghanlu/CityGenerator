@@ -24,3 +24,17 @@ public:
 	bool ParseFromPreparedALembic(int32 PointIndex, const TArray<FTransform>& Transforms,
 		const TMap<FString, TArray<FString>>& MetaDatas);
 };
+
+
+
+USTRUCT(BlueprintType)
+struct CITYMAKER_API FCityPointClouds
+{
+	GENERATED_BODY()
+
+public:
+	void Clear();
+
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FBasePointCloud> BasePoints;
+};
