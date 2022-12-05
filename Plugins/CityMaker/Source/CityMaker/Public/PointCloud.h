@@ -20,7 +20,7 @@ public:
 	TArray<FBasePointCloud> BasePointClouds;
 
 	UFUNCTION(BlueprintCallable)
-	bool LoadFromAlembic(const FString& FileName);
+	bool LoadFromAlembic(const FString& ProjectRelativePath);
 
 
 	UFUNCTION(BlueprintCallable)

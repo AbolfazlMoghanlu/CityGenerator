@@ -4,6 +4,7 @@
 
 #include "Algo/AnyOf.h"
 #include "PointCloudAlembicHelpers.h"
+#include "Paths.h"
 
 #if WITH_EDITOR
 THIRD_PARTY_INCLUDES_START
@@ -15,7 +16,7 @@ THIRD_PARTY_INCLUDES_END
 
 DEFINE_LOG_CATEGORY(PointCloudLog)
 
-bool UPointCloud::LoadFromAlembic(const FString& FileName)
+bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath)
 {
 #if WITH_EDITOR
 
@@ -30,11 +31,14 @@ bool UPointCloud::LoadFromAlembic(const FString& FileName)
 	Factory.setPolicy(Alembic::Abc::ErrorHandler::kQuietNoopPolicy);
 	Factory.setOgawaNumStreams(12);
 
+	const FString FilePath = FPaths::ConvertRelativePathToFull(
+		FPaths::Combine(FPaths::ProjectDir(), ProjectRelativePath));
+
 	// Extract Archive and compression type from file
-	Archive = Factory.getArchive(TCHAR_TO_UTF8(*FileName), CompressionType);
+	Archive = Factory.getArchive(TCHAR_TO_UTF8(*FilePath), CompressionType);
 	if (!Archive.valid())
 	{
-		UE_LOG(PointCloudLog, Warning, TEXT("Failed to open %s: Not a valid Rule Processor Alembic file."), *FileName);
+		UE_LOG(PointCloudLog, Warning, TEXT("Failed to open %s: Not a valid Rule Processor Alembic file."), *FilePath);
 		return false;
 	}
 
@@ -42,7 +46,7 @@ bool UPointCloud::LoadFromAlembic(const FString& FileName)
 	TopObject = Alembic::Abc::IObject(Archive, Alembic::Abc::kTop);
 	if (!TopObject.valid())
 	{
-		UE_LOG(PointCloudLog, Warning, TEXT("Failed to import %s: Root not is not valid."), *FileName);
+		UE_LOG(PointCloudLog, Warning, TEXT("Failed to import %s: Root not is not valid."), *FilePath);
 		return false;
 	}
 
@@ -60,8 +64,8 @@ bool UPointCloud::LoadFromAlembic(const FString& FileName)
 	{
 		Points.BasePoints[i].Transform = PreparedTransforms[i];
 
-		auto a = MetadataValues.Find("IntProp")->GetData()[i];
-		Points.BasePoints[i].Name = a;
+		//auto a = MetadataValues.Find("name")->GetData()[i];
+		//Points.BasePoints[i].Name = a;
 	}
 
 
