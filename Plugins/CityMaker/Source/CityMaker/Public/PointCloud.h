@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "PointCloudTypes.h"
 #include "PointCloudConfig.h"
+#include "SQLite/PointCloudSQLiteDatabase.h"
 #include "PointCloud.generated.h"
 
 //UCLASS(Abstract, BlueprintType, hidecategories = (Object))
@@ -22,10 +23,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool LoadFromAlembic(const FString& ProjectRelativePath);
 
+	UFUNCTION(BlueprintCallable)
+	void InitDB();
 
 	UFUNCTION(BlueprintCallable)
 	FCityPointClouds& GetData();
 
 private:
+	
+	PointCloudSQLiteDatabase DB;
+
 	FCityPointClouds Points;
 };

@@ -75,6 +75,11 @@ bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath)
 	return false;
 }
 
+void UPointCloud::InitDB()
+{
+	DB.InitTempFile();
+}
+
 FCityPointClouds& UPointCloud::GetData()
 {
 	return Points;
