@@ -39,14 +39,14 @@ void PointCloudSQLiteDatabase::InitTempFile()
 
 
 	// road table row data
-	// position_x, position_y, position_z, scale_x, scale_y, scale_z, pitch, roll, yaw
-	SQL_EXEC("CREATE TABLE IF NOT EXISTS Road(position_x FLOAT, position_y FLOAT, position_z FLOAT,"
-		"scale_x FLOAT, scale_y FLOAT, scale_z FLOAT, pitch FLOAT, roll FLOAT, yaw FLOAT);");
+	// position_x, position_y, position_z, scale_x, scale_y, scale_z, pitch, roll, yaw, batch index
+	SQL_EXEC("CREATE TABLE IF NOT EXISTS Road("
+		"position_x FLOAT, position_y FLOAT, position_z FLOAT,"
+		"scale_x FLOAT, scale_y FLOAT, scale_z FLOAT,"
+		"pitch FLOAT, roll FLOAT, yaw FLOAT,"
+		"batch_index INT"
+		");");
 	ERROR_CHECK("failed to create roads table!");
-
-
-	//SQL_EXEC("insert into Road VALUES (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-	//ERROR_CHECK("failed to insert!");
 }
 
 bool PointCloudSQLiteDatabase::CLearAndInsertRoadPoints(const TArray<FRoadPointCloud>& RoadPoints)
@@ -59,10 +59,17 @@ bool PointCloudSQLiteDatabase::CLearAndInsertRoadPoints(const TArray<FRoadPointC
 
 	for (const FRoadPointCloud& Point : RoadPoints)
 	{
-		Command = FString::Printf(TEXT("INSERT INTO Road VALUES (%f, %f, %f, %f, %f, %f, %f, %f, %f)"),
+		Command = FString::Printf(TEXT("INSERT INTO Road VALUES ("
+			"%f, %f, %f," // location 
+			"%f, %f, %f," // scale
+			"%f, %f, %f," // rotation
+			"%i"		  // batch index
+			")"
+			),
 			Point.Transform.GetLocation().X, Point.Transform.GetLocation().Y, Point.Transform.GetLocation().Z,
 			Point.Transform.GetScale3D().X, Point.Transform.GetScale3D().Y, Point.Transform.GetScale3D().Z,
-			Point.Transform.Rotator().Pitch, Point.Transform.Rotator().Roll, Point.Transform.Rotator().Yaw);
+			Point.Transform.Rotator().Pitch, Point.Transform.Rotator().Roll, Point.Transform.Rotator().Yaw,
+			Point.BatchIndex);
 
 		result = sqlite3_exec(db, TCHAR_TO_ANSI(*Command), 0, 0, &err);
 

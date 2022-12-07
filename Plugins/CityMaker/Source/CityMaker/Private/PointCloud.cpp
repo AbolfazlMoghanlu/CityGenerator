@@ -76,6 +76,9 @@ bool UPointCloud::LoadRoadPointsFromAlembic(const FString& ProjectRelativePath)
 	{
 		Points.RoadPoints[i].Transform = PreparedTransforms[i];
 
+		auto a = MetadataValues.Find("batch_index")->GetData()[i];
+		Points.RoadPoints[i].BatchIndex = FCString::Atoi(*a);
+
 		//auto a = MetadataValues.Find("name")->GetData()[i];
 		//Points.BasePoints[i].Name = a;
 	}

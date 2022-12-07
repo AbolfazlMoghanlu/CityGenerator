@@ -17,6 +17,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	FTransform Transform;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 BatchIndex;
 };
 
 

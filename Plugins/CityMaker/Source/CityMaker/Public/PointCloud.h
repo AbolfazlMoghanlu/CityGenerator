@@ -18,7 +18,6 @@ public:
 	UPointCloud(){};
 	~UPointCloud(){};
 
-	//UFUNCTION(BlueprintCallable)
 	bool LoadFromAlembic(const FString& ProjectRelativePath, TArray<FTransform>& PreparedTransforms,
 		TArray<FString>& MetadataColumnNames, TMap<FString, TArray<FString>>& MetadataValues);
 
