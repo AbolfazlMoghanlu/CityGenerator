@@ -30,7 +30,8 @@ void ParseAlembicArrayAttribute(
 	const FString& InPropName,
 	int InNumPoints,
 	TArray<FString>& OutMetadataColumnNames,
-	TMap<FString, TArray<FString>>& OutMetadataValues)
+	TMap<FString, TArray<FString>>& OutMetadataValues,
+	TMap<FString, FString>& OutDetailMetadataValues)
 {
 	TArray<FString> MetadataNames;
 	if (InDataExtent == 1)
@@ -58,6 +59,21 @@ void ParseAlembicArrayAttribute(
 
 	if (!Param.valid())
 	{
+		// @Hack: extract detail properties
+		Alembic::AbcGeom::IInt32Property IntParam(Parameters, std::string(TCHAR_TO_UTF8(*InPropName)));
+		if (IntParam.valid())
+		{
+			OutDetailMetadataValues.Add(InPropName, FString::FromInt(IntParam.getValue()));
+			return;
+		}
+
+		Alembic::AbcGeom::IFloatProperty FloatParam(Parameters, std::string(TCHAR_TO_UTF8(*InPropName)));
+		if (FloatParam.valid())
+		{
+			OutDetailMetadataValues.Add(InPropName, FString::Printf(TEXT("%f"), FloatParam.getValue()));
+			return;
+		}
+
 		UE_LOG(PointCloudLog, Log, TEXT("Invalid metadata property type for attribute: %s"), *InPropName);
 		return;
 	}
@@ -142,7 +158,11 @@ void ParseAlembicVectorAttribute(
  * @Param OutMetadataColumnNames - The names of each metadata property found on the alembic object.
  * @Param OutMetadataValues - A map between metadata column names and arrays of the metadata values found on the alembic object.
  */
-void ParseAlembicObject(const Alembic::Abc::IObject& InObject, TArray<FTransform>& OutPreparedTransforms, TArray<FString>& OutMetadataColumnNames, TMap<FString, TArray<FString>>& OutMetadataValues)
+void ParseAlembicObject(const Alembic::Abc::IObject& InObject,
+	TArray<FTransform>& OutPreparedTransforms,
+	TArray<FString>& OutMetadataColumnNames,
+	TMap<FString, TArray<FString>>& OutMetadataValues,
+	TMap<FString, FString>& OutDetailMetadataValues)
 {
 	// Get MetaData info from current Alembic Object
 	const Alembic::Abc::MetaData& ObjectMetaData = InObject.getMetaData();
@@ -181,7 +201,7 @@ void ParseAlembicObject(const Alembic::Abc::IObject& InObject, TArray<FTransform
 			if (PropName.Compare("orient") == 0)
 			{
 				Alembic::Abc::IQuatfArrayProperty Param(Parameters, std::string(TCHAR_TO_UTF8(*PropName)));
-
+				
 				if (!Param.valid())
 				{
 					UE_LOG(PointCloudLog, Log, TEXT("Invalid metadata property type for attribute: %s"), *PropName);
@@ -214,7 +234,7 @@ void ParseAlembicObject(const Alembic::Abc::IObject& InObject, TArray<FTransform
 					case 1:
 					{
 						ParseAlembicArrayAttribute<Alembic::AbcGeom::IInt32GeomParam, Alembic::Abc::Int32ArraySamplePtr, Alembic::Abc::Int32ArraySample::value_type>
-							(SubExtent, Parameters, PropName, NumPoints, OutMetadataColumnNames, OutMetadataValues);
+							(SubExtent, Parameters, PropName, NumPoints, OutMetadataColumnNames, OutMetadataValues, OutDetailMetadataValues);
 					}
 					break;
 					case 2:
@@ -245,7 +265,7 @@ void ParseAlembicObject(const Alembic::Abc::IObject& InObject, TArray<FTransform
 					case 1:
 					{
 						ParseAlembicArrayAttribute<Alembic::AbcGeom::IFloatGeomParam, Alembic::Abc::FloatArraySamplePtr, Alembic::Abc::FloatArraySample::value_type>
-							(SubExtent, Parameters, PropName, NumPoints, OutMetadataColumnNames, OutMetadataValues);
+							(SubExtent, Parameters, PropName, NumPoints, OutMetadataColumnNames, OutMetadataValues, OutDetailMetadataValues);
 					}
 					break;
 					case 2:
@@ -354,7 +374,7 @@ void ParseAlembicObject(const Alembic::Abc::IObject& InObject, TArray<FTransform
 	{
 		for (uint32 ChildIndex = 0; ChildIndex < NumChildren; ++ChildIndex)
 		{
-			ParseAlembicObject(InObject.getChild(ChildIndex), OutPreparedTransforms, OutMetadataColumnNames, OutMetadataValues);
+			ParseAlembicObject(InObject.getChild(ChildIndex), OutPreparedTransforms, OutMetadataColumnNames, OutMetadataValues, OutDetailMetadataValues);
 		}
 	}
 }

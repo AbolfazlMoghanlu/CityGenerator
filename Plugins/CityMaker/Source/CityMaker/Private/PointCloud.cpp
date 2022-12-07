@@ -16,7 +16,8 @@ THIRD_PARTY_INCLUDES_END
 DEFINE_LOG_CATEGORY(PointCloudLog)
 
 bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath, TArray<FTransform>& PreparedTransforms,
-	TArray<FString>& MetadataColumnNames, TMap<FString, TArray<FString>>& MetadataValues)
+	TArray<FString>& MetadataColumnNames, TMap<FString, TArray<FString>>& MetadataValues, 
+	TMap<FString, FString>& DetailMetadataValues)
 {
 #if WITH_EDITOR
 
@@ -50,7 +51,7 @@ bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath, TArray<FTr
 		return false;
 	}
 
-	ParseAlembicObject(TopObject, PreparedTransforms, MetadataColumnNames, MetadataValues);
+	ParseAlembicObject(TopObject, PreparedTransforms, MetadataColumnNames, MetadataValues, DetailMetadataValues);
 
 	return true;
 
@@ -64,8 +65,9 @@ bool UPointCloud::LoadRoadPointsFromAlembic(const FString& ProjectRelativePath)
 	TArray<FTransform> PreparedTransforms;
 	TArray<FString> MetadataColumnNames;
 	TMap<FString, TArray<FString>> MetadataValues;
+	TMap<FString, FString> DetailMetadataValues;
 
-	if(!LoadFromAlembic(ProjectRelativePath, PreparedTransforms, MetadataColumnNames, MetadataValues)) {return false;}
+	if(!LoadFromAlembic(ProjectRelativePath, PreparedTransforms, MetadataColumnNames, MetadataValues, DetailMetadataValues)) {return false;}
 
 	Points.RoadPoints.Empty();
 

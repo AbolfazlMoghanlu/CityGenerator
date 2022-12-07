@@ -29,7 +29,7 @@ void ParseAlembicArrayAttribute(
 	const FString& InPropName,
 	int InNumPoints,
 	TArray<FString>& OutMetadataColumnNames,
-	TMap<FString, TArray<FString>>& OutMetadataValues);
+	TMap<FString, FString>& OutMetadataValues);
 
 /**
  * Parse the Alembic attribute from the Property Header and add it to the list of metadata attributes.
@@ -59,6 +59,7 @@ void ParseAlembicObject(
 	const Alembic::Abc::IObject& InObject,
 	TArray<FTransform>& OutPreparedTransforms,
 	TArray<FString>& OutMetadataColumnNames,
-	TMap<FString, TArray<FString>>& OutMetadataValues);
+	TMap<FString, TArray<FString>>& OutMetadataValues,
+	TMap<FString, FString>& OutDetailMetadataValues);
 
 #endif 
