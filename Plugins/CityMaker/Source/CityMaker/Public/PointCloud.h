@@ -18,8 +18,6 @@ public:
 	UPointCloud(){};
 	~UPointCloud(){};
 
-	TArray<FBasePointCloud> BasePointClouds;
-
 	UFUNCTION(BlueprintCallable)
 	bool LoadFromAlembic(const FString& ProjectRelativePath);
 

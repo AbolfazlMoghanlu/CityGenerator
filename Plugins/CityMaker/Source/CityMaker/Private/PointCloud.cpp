@@ -58,11 +58,11 @@ bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath)
 	Points.Clear();
 
 	const int32 PointNum = PreparedTransforms.Num();
-	Points.BasePoints.SetNum(PointNum, true);
+	Points.RoadPoints.SetNum(PointNum, true);
 
 	for (int i = 0; i < PointNum; i++)
 	{
-		Points.BasePoints[i].Transform = PreparedTransforms[i];
+		Points.RoadPoints[i].Transform = PreparedTransforms[i];
 
 		//auto a = MetadataValues.Find("name")->GetData()[i];
 		//Points.BasePoints[i].Name = a;

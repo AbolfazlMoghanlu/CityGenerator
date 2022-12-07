@@ -6,25 +6,18 @@
 #include "PointCloudTypes.generated.h"
 
 USTRUCT(BlueprintType)
-struct CITYMAKER_API FBasePointCloud
+struct CITYMAKER_API FRoadPointCloud
 {
 	GENERATED_BODY()
 
 public:
-	FBasePointCloud() :
-		Transform(FTransform::Identity),
-		Name("")
+	FRoadPointCloud() :
+		Transform(FTransform::Identity)
 		{};
 
 	UPROPERTY(BlueprintReadWrite)
 	FTransform Transform;
-	UPROPERTY(BlueprintReadWrite)
-	FString Name;
-
-	bool ParseFromPreparedALembic(int32 PointIndex, const TArray<FTransform>& Transforms,
-		const TMap<FString, TArray<FString>>& MetaDatas);
 };
-
 
 
 USTRUCT(BlueprintType)
@@ -36,5 +29,5 @@ public:
 	void Clear();
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<FBasePointCloud> BasePoints;
+	TArray<FRoadPointCloud> RoadPoints;
 };
