@@ -19,6 +19,11 @@ const FString TempFilePath = FPaths::ConvertRelativePathToFull(
 	FPaths::Combine(FPaths::ProjectPluginsDir(), TEXT("CityMaker/Binaries/Win64/TempPointCloud.db")));
 
 
+PointCloudSQLiteDatabase::PointCloudSQLiteDatabase()
+{
+	InitTempFile();
+}
+
 void PointCloudSQLiteDatabase::InitTempFile()
 {
 	sqlite3_open(TCHAR_TO_ANSI(*TempFilePath), &db);
@@ -40,8 +45,36 @@ void PointCloudSQLiteDatabase::InitTempFile()
 	ERROR_CHECK("failed to create roads table!");
 
 
-	SQL_EXEC("insert into Road VALUES (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-	ERROR_CHECK("failed to insert!");
+	//SQL_EXEC("insert into Road VALUES (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+	//ERROR_CHECK("failed to insert!");
+}
+
+bool PointCloudSQLiteDatabase::CLearAndInsertRoadPoints(const TArray<FRoadPointCloud>& RoadPoints)
+{
+	FString Command;
+	int result;
+	char* err;
+
+	// @todo: clear road table
+
+	for (const FRoadPointCloud& Point : RoadPoints)
+	{
+		Command = FString::Printf(TEXT("INSERT INTO Road VALUES (%f, %f, %f, %f, %f, %f, %f, %f, %f)"),
+			Point.Transform.GetLocation().X, Point.Transform.GetLocation().Y, Point.Transform.GetLocation().Z,
+			Point.Transform.GetScale3D().X, Point.Transform.GetScale3D().Y, Point.Transform.GetScale3D().Z,
+			Point.Transform.Rotator().Pitch, Point.Transform.Rotator().Roll, Point.Transform.Rotator().Yaw);
+
+		result = sqlite3_exec(db, TCHAR_TO_ANSI(*Command), 0, 0, &err);
+
+		ERROR_CHECK("failed to insert road points!");
+
+		if (result != SQLITE_OK)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 #undef SQL_EXEC

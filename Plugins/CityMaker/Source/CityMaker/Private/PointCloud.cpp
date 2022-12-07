@@ -13,10 +13,10 @@ THIRD_PARTY_INCLUDES_START
 THIRD_PARTY_INCLUDES_END
 #endif 
 
-
 DEFINE_LOG_CATEGORY(PointCloudLog)
 
-bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath)
+bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath, TArray<FTransform>& PreparedTransforms,
+	TArray<FString>& MetadataColumnNames, TMap<FString, TArray<FString>>& MetadataValues)
 {
 #if WITH_EDITOR
 
@@ -50,12 +50,24 @@ bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath)
 		return false;
 	}
 
+	ParseAlembicObject(TopObject, PreparedTransforms, MetadataColumnNames, MetadataValues);
+
+	return true;
+
+#endif
+	return false;
+}
+
+bool UPointCloud::LoadRoadPointsFromAlembic(const FString& ProjectRelativePath)
+{
+#if WITH_EDITOR
 	TArray<FTransform> PreparedTransforms;
 	TArray<FString> MetadataColumnNames;
 	TMap<FString, TArray<FString>> MetadataValues;
-	ParseAlembicObject(TopObject, PreparedTransforms, MetadataColumnNames, MetadataValues);
-	
-	Points.Clear();
+
+	if(!LoadFromAlembic(ProjectRelativePath, PreparedTransforms, MetadataColumnNames, MetadataValues)) {return false;}
+
+	Points.RoadPoints.Empty();
 
 	const int32 PointNum = PreparedTransforms.Num();
 	Points.RoadPoints.SetNum(PointNum, true);
@@ -68,11 +80,13 @@ bool UPointCloud::LoadFromAlembic(const FString& ProjectRelativePath)
 		//Points.BasePoints[i].Name = a;
 	}
 
+	DB.CLearAndInsertRoadPoints(Points.RoadPoints);
 
 	return true;
 
-#endif
+#else
 	return false;
+#endif
 }
 
 void UPointCloud::InitDB()
