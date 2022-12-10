@@ -2,7 +2,8 @@
 
 #include "PointCloudTypes.h"
 
-void FCityPointClouds::Clear()
+void FCityData::Clear()
 {
-	RoadPoints.Empty();
+	RoadData.Points.Empty();
+	RoadData.BatchCount = -1;
 }

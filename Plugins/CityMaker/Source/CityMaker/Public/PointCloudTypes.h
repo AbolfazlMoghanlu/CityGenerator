@@ -12,7 +12,8 @@ struct CITYMAKER_API FRoadPointCloud
 
 public:
 	FRoadPointCloud() :
-		Transform(FTransform::Identity)
+		Transform(FTransform::Identity),
+		BatchIndex(-1)
 		{};
 
 	UPROPERTY(BlueprintReadWrite)
@@ -22,9 +23,21 @@ public:
 	int32 BatchIndex;
 };
 
+USTRUCT(BlueprintType)
+struct CITYMAKER_API FRoadsData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FRoadPointCloud> Points;
+
+	UPROPERTY(BlueprintReadWrite)
+	int BatchCount = -1;
+};
 
 USTRUCT(BlueprintType)
-struct CITYMAKER_API FCityPointClouds
+struct CITYMAKER_API FCityData
 {
 	GENERATED_BODY()
 
@@ -32,5 +45,5 @@ public:
 	void Clear();
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<FRoadPointCloud> RoadPoints;
+	FRoadsData RoadData;
 };

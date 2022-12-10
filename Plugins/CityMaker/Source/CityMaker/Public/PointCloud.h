@@ -28,12 +28,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitDB();
 
+	UFUNCTION(BlueprintPure)
+	FCityData& GetData();
+
 	UFUNCTION(BlueprintCallable)
-	FCityPointClouds& GetData();
+	void GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoadPointCloud>& RoadPoints);
 
 private:
 	
 	PointCloudSQLiteDatabase DB;
 
-	FCityPointClouds Points;
+	FCityData CityData;
 };

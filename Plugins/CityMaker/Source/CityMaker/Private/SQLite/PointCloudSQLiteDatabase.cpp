@@ -84,5 +84,51 @@ bool PointCloudSQLiteDatabase::CLearAndInsertRoadPoints(const TArray<FRoadPointC
 	return true;
 }
 
+void PointCloudSQLiteDatabase::GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoadPointCloud>& RoadPoints)
+{
+	RoadPoints.Empty();
+
+	FString Command;
+	sqlite3_stmt* stmt;
+
+	Command = "SELECT position_x, position_y, position_z, scale_x, scale_y, scale_z,"
+		"pitch, roll, yaw, batch_index FROM Road WHERE batch_index = " + FString::FromInt(BatchIndex);
+
+	sqlite3_prepare_v2(db, TCHAR_TO_ANSI(*Command), -1, &stmt, 0);
+
+	// @TODO: find a better way of counting elements
+	int count = 0;
+	while (sqlite3_step(stmt) != SQLITE_DONE) { count++; }
+
+	RoadPoints.SetNumUninitialized(count);
+
+	sqlite3_prepare_v2(db, TCHAR_TO_ANSI(*Command), -1, &stmt, 0);
+
+	int index = 0;
+	while (sqlite3_step(stmt) != SQLITE_DONE)
+	{
+		float p_x = float(sqlite3_column_double(stmt, 0));
+		float p_y = float(sqlite3_column_double(stmt, 1));
+		float p_z = float(sqlite3_column_double(stmt, 2));
+	
+		float s_x = float(sqlite3_column_double(stmt, 3));
+		float s_y = float(sqlite3_column_double(stmt, 4));
+		float s_z = float(sqlite3_column_double(stmt, 5));
+	
+		float r_x = float(sqlite3_column_double(stmt, 6));
+		float r_y = float(sqlite3_column_double(stmt, 7));
+		float r_z = float(sqlite3_column_double(stmt, 8));
+	
+		int batch_index = sqlite3_column_int(stmt, 9);
+	
+		RoadPoints[index].Transform = FTransform(
+			FRotator(r_x, r_z, r_y), FVector(p_x, p_y, p_z), FVector(s_x, s_y, s_z));
+	
+		RoadPoints[index].BatchIndex = batch_index;
+
+		index++;
+	}
+}
+
 #undef SQL_EXEC
 #undef ERROR_CHECK

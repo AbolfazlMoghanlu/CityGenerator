@@ -69,23 +69,26 @@ bool UPointCloud::LoadRoadPointsFromAlembic(const FString& ProjectRelativePath)
 
 	if(!LoadFromAlembic(ProjectRelativePath, PreparedTransforms, MetadataColumnNames, MetadataValues, DetailMetadataValues)) {return false;}
 
-	Points.RoadPoints.Empty();
+	TArray<FRoadPointCloud>& RoadPoints = CityData.RoadData.Points;
+	RoadPoints.Empty();
 
 	const int32 PointNum = PreparedTransforms.Num();
-	Points.RoadPoints.SetNum(PointNum, true);
+	RoadPoints.SetNum(PointNum, true);
 
 	for (int i = 0; i < PointNum; i++)
 	{
-		Points.RoadPoints[i].Transform = PreparedTransforms[i];
+		RoadPoints[i].Transform = PreparedTransforms[i];
 
 		auto a = MetadataValues.Find("batch_index")->GetData()[i];
-		Points.RoadPoints[i].BatchIndex = FCString::Atoi(*a);
-
-		//auto a = MetadataValues.Find("name")->GetData()[i];
-		//Points.BasePoints[i].Name = a;
+		RoadPoints[i].BatchIndex = FCString::Atoi(*a);
 	}
 
-	DB.CLearAndInsertRoadPoints(Points.RoadPoints);
+	// Detail properties 
+	const FString& BatchCountStr = *DetailMetadataValues.Find("batch_count");
+	CityData.RoadData.BatchCount = FCString::Atoi(*BatchCountStr);
+
+
+	DB.CLearAndInsertRoadPoints(RoadPoints);
 
 	return true;
 
@@ -99,7 +102,12 @@ void UPointCloud::InitDB()
 	DB.InitTempFile();
 }
 
-FCityPointClouds& UPointCloud::GetData()
+FCityData& UPointCloud::GetData()
 {
-	return Points;
+	return CityData;
+}
+
+void UPointCloud::GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoadPointCloud>& RoadPoints)
+{
+	DB.GetRoadsInSameBatch(BatchIndex, RoadPoints);
 }

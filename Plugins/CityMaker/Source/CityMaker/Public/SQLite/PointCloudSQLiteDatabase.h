@@ -15,5 +15,7 @@ public:
 
 	bool CLearAndInsertRoadPoints(const TArray<FRoadPointCloud>& RoadPoints);
 
+	void GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoadPointCloud>& RoadPoints);
+
 	struct sqlite3* db;
 };
