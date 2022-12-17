@@ -79,16 +79,23 @@ bool UPointCloud::LoadRoadPointsFromAlembic(const FString& ProjectRelativePath)
 	{
 		RoadPoints[i].Transform = PreparedTransforms[i];
 
-		auto a = MetadataValues.Find("batch_index")->GetData()[i];
-		RoadPoints[i].BatchIndex = FCString::Atoi(*a);
+		//auto a = MetadataValues.Find("batch_index")->GetData()[i];
+		//RoadPoints[i].BatchIndex = FCString::Atoi(*a);
+
+		auto a = MetadataValues.Find("curve")->GetData()[i];
+		RoadPoints[i].Curve = FCString::Atoi(*a);
+
+		a = MetadataValues.Find("module")->GetData()[i];
+		RoadPoints[i].Module = FCString::Atoi(*a);
 	}
 
 	// Detail properties 
-	const FString& BatchCountStr = *DetailMetadataValues.Find("batch_count");
-	CityData.RoadData.BatchCount = FCString::Atoi(*BatchCountStr);
+	//const FString& BatchCountStr = *DetailMetadataValues.Find("batch_count");
+	//CityData.RoadData.BatchCount = FCString::Atoi(*BatchCountStr);
+	CityData.RoadData.BatchCount = 1;
 
 
-	DB.CLearAndInsertRoadPoints(RoadPoints);
+	//DB.CLearAndInsertRoadPoints(RoadPoints);
 
 	return true;
 

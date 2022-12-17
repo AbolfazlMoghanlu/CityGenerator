@@ -21,6 +21,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 BatchIndex;
+
+	UPROPERTY(BlueprintReadWrite)
+	int Curve = -1;
+
+	UPROPERTY(BlueprintReadWrite)
+	int Module = -1;
 };
 
 USTRUCT(BlueprintType)
