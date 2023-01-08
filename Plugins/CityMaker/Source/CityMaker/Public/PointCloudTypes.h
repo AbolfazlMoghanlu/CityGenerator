@@ -23,10 +23,10 @@ public:
 	int32 BatchIndex;
 
 	UPROPERTY(BlueprintReadWrite)
-	int Curve = -1;
+	int CurveAngle = 0;
 
 	UPROPERTY(BlueprintReadWrite)
-	int Module = -1;
+	int Module = 0;
 };
 
 USTRUCT(BlueprintType)
