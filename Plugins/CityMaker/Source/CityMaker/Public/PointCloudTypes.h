@@ -13,20 +13,18 @@ struct CITYMAKER_API FRoadPointCloud
 public:
 	FRoadPointCloud() :
 		Transform(FTransform::Identity),
-		BatchIndex(-1)
+		RoadType(0),
+		RoadVar(0)
 		{};
 
 	UPROPERTY(BlueprintReadWrite)
 	FTransform Transform;
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 BatchIndex;
+	int RoadType;
 
 	UPROPERTY(BlueprintReadWrite)
-	int CurveAngle = 0;
-
-	UPROPERTY(BlueprintReadWrite)
-	int Module = 0;
+	int RoadVar;
 };
 
 USTRUCT(BlueprintType)

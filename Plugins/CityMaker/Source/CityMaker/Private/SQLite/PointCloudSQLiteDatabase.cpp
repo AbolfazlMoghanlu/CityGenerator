@@ -68,8 +68,8 @@ bool PointCloudSQLiteDatabase::CLearAndInsertRoadPoints(const TArray<FRoadPointC
 			),
 			Point.Transform.GetLocation().X, Point.Transform.GetLocation().Y, Point.Transform.GetLocation().Z,
 			Point.Transform.GetScale3D().X, Point.Transform.GetScale3D().Y, Point.Transform.GetScale3D().Z,
-			Point.Transform.Rotator().Pitch, Point.Transform.Rotator().Roll, Point.Transform.Rotator().Yaw,
-			Point.BatchIndex);
+			Point.Transform.Rotator().Pitch, Point.Transform.Rotator().Roll, Point.Transform.Rotator().Yaw/*,
+			Point.BatchIndex*/);
 
 		result = sqlite3_exec(db, TCHAR_TO_ANSI(*Command), 0, 0, &err);
 
@@ -124,7 +124,7 @@ void PointCloudSQLiteDatabase::GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoa
 		RoadPoints[index].Transform = FTransform(
 			FRotator(r_x, r_z, r_y), FVector(p_x, p_y, p_z), FVector(s_x, s_y, s_z));
 	
-		RoadPoints[index].BatchIndex = batch_index;
+		//RoadPoints[index].BatchIndex = batch_index;
 
 		index++;
 	}
