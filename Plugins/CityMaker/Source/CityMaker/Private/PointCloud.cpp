@@ -84,7 +84,7 @@ bool UPointCloud::LoadRoadPointsFromAlembic(const FString& ProjectRelativePath)
 
 		//auto a = MetadataValues.Find("CurveAngle")->GetData()[i];
 		//RoadPoints[i].CurveAngle = FCString::Atoi(*a);
-
+		
 		auto a = MetadataValues.Find("roadtype")->GetData()[i];
 		RoadPoints[i].RoadType = FCString::Atoi(*a);
 
