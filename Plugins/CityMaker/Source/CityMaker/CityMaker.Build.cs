@@ -10,14 +10,14 @@ public class CityMaker : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"CityMaker/Public"
+				ModuleDirectory + "/Public"
 			}
 			);
 				
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"CityMaker/Private",
+				ModuleDirectory + "/Private"
 			}
 			);
 			

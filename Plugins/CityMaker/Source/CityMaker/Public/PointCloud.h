@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "PointCloudTypes.h"
 #include "PointCloudConfig.h"
-#include "SQLite/PointCloudSQLiteDatabase.h"
 #include "PointCloud.generated.h"
 
 //UCLASS(Abstract, BlueprintType, hidecategories = (Object))
@@ -25,18 +24,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool LoadRoadPointsFromAlembic(const FString& ProjectRelativePath);
 
-	UFUNCTION(BlueprintCallable)
-	void InitDB();
+	//UFUNCTION(BlueprintCallable)
+	//void InitDB();
 
 	UFUNCTION(BlueprintPure)
 	FCityData& GetData();
 
-	UFUNCTION(BlueprintCallable)
-	void GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoadPointCloud>& RoadPoints);
+	//UFUNCTION(BlueprintCallable)
+	//void GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoadPointCloud>& RoadPoints);
 
 private:
-	
-	PointCloudSQLiteDatabase DB;
+
+	//PointCloudSQLiteDatabase DB;
 
 	FCityData CityData;
 };

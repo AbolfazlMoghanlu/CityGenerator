@@ -73,6 +73,8 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
+*.vsconfig
+
 Houdini/backup/*
 Houdini/CACHES/*
 Houdini/geo/*

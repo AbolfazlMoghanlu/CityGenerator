@@ -106,18 +106,19 @@ bool UPointCloud::LoadRoadPointsFromAlembic(const FString& ProjectRelativePath)
 	return false;
 #endif
 }
-
+/*
 void UPointCloud::InitDB()
 {
 	DB.InitTempFile();
 }
-
+*/
 FCityData& UPointCloud::GetData()
 {
 	return CityData;
 }
-
+/*
 void UPointCloud::GetRoadsInSameBatch(int32 BatchIndex, TArray<FRoadPointCloud>& RoadPoints)
 {
 	DB.GetRoadsInSameBatch(BatchIndex, RoadPoints);
 }
+*/

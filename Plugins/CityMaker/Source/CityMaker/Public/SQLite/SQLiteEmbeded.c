@@ -1,4 +1,0 @@
-
-//THIRD_PARTY_INCLUDES_START
-#include "sqlite3.inl"
-//THIRD_PARTY_INCLUDES_END
