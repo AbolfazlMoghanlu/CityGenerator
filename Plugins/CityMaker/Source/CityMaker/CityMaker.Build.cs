@@ -10,14 +10,16 @@ public class CityMaker : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				ModuleDirectory + "/Public"
-			}
+				ModuleDirectory + "/Public",
+				PluginDirectory + "/../HoudiniEngine/Source/HoudiniEngineRuntime/Public",
+            }
 			);
 				
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				ModuleDirectory + "/Private"
+				ModuleDirectory + "/Private",
+				PluginDirectory + "/../HoudiniEngine/Source/HoudiniEngineRuntime/Private",
 			}
 			);
 			
@@ -36,7 +38,8 @@ public class CityMaker : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-                "AlembicLib"
+                "AlembicLib",
+                "HoudiniEngineRuntime"
             }
             );
 		

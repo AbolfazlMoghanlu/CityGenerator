@@ -20,7 +20,12 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 		// Position
 		FVector Location = Spline->GetWorldLocationAtSplinePoint(ix);
-		RoadTable.Append(FString::Printf(TEXT("%f, %f, %f,"), Location.X, Location.Y, Location.Z));
+		RoadTable.Append(FString::Printf(TEXT("%f, %f, %f,"), ix != -1 ? Location.X : 0.0f,
+			ix != -1 ? Location.Y : 0.0f, ix != -1 ? Location.Z : 0.0f));
+		
+		// Separator
+		RoadTable.Append(FString::Printf(TEXT("%i"), ix == -1 ? 1 : 0));
+
 
 		RoadTable.Append("\n");
 	};
@@ -31,11 +36,6 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 		AddRoadAttrib(i);
 	}
 
-	//RoadTable.Append()
-	
-	//FString Out;
-	//Out = "---,Position_x,Position_y,Position_z\n";
-	//Out.Append("Na1, 0, 10, 0\n");
-	//Out.Append("Na2, 30, 10, 0\n");
-	//Out.Append("Na3, 0, 10, 50\n");
+	// add separator
+	AddRoadAttrib(-1);
 }

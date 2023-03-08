@@ -7,6 +7,8 @@
 #include "Engine/DataTable.h"
 #include "TestBFL.generated.h"
 
+class UHoudiniAssetComponent;
+
 USTRUCT(BlueprintType)
 struct FRoadDesc : public FTableRowBase
 {
@@ -21,6 +23,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Position_z;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Separator;
 };
 
 /**
@@ -35,4 +40,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static bool ReimportDataTable(UDataTable* DataTable, const FString& CSVFilePath);
+
+	UFUNCTION(BlueprintCallable)
+	static void ForceRecookHoudiniAsset(UHoudiniAssetComponent* Comp);
 };

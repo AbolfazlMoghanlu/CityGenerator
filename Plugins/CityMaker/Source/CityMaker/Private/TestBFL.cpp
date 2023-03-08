@@ -4,6 +4,7 @@
 #include "TestBFL.h"
 #include "UnrealEd.h"
 #include "Factories/ReimportDataTableFactory.h"
+#include "HoudiniAssetComponent.h"
 
 bool UTestBFL::ReimportDataTable(UDataTable* DataTable, const FString& InFilePath)
 {
@@ -27,4 +28,9 @@ bool UTestBFL::ReimportDataTable(UDataTable* DataTable, const FString& InFilePat
 
 	return true;
 #endif
+}
+
+void UTestBFL::ForceRecookHoudiniAsset(UHoudiniAssetComponent* Comp)
+{
+	Comp->MarkAsNeedCook();
 }
