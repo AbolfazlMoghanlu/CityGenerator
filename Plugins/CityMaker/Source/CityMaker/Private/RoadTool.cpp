@@ -3,6 +3,7 @@
 
 #include "RoadTool.h"
 #include <Components/SplineComponent.h>
+#include "RoadDataAsset.h"
 
 ARoadTool::ARoadTool()
 {
@@ -24,8 +25,15 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 			ix != -1 ? Location.Y : 0.0f, ix != -1 ? Location.Z : 0.0f));
 		
 		// Separator
-		RoadTable.Append(FString::Printf(TEXT("%i"), ix == -1 ? 1 : 0));
+		RoadTable.Append(FString::Printf(TEXT("%i,"), ix == -1 ? 1 : 0));
 
+		UStaticMesh* BaseMesh = RoadData ? RoadData->BaseMesh : nullptr;
+		FString BaseMeshRefrence = BaseMesh ? BaseMesh->GetFullName() : "None";
+		RoadTable.Append((ix == -1 ? "None" : BaseMeshRefrence) + ",");
+
+		UStaticMesh* FillerMesh = RoadData ? RoadData->FillerMesh : nullptr;
+		FString FillerMeshRefrence = FillerMesh ? FillerMesh->GetFullName() : "None";
+		RoadTable.Append(ix == -1 ? "None" : FillerMeshRefrence);
 
 		RoadTable.Append("\n");
 	};

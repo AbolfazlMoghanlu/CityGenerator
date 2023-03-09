@@ -6,6 +6,8 @@
 #include "CityGeneratorTool.h"
 #include "RoadTool.generated.h"
 
+class URoadDataAsset;
+
 USTRUCT(BlueprintType)
 struct FRoadAttribs
 {
@@ -29,8 +31,13 @@ public:
 	UFUNCTION(BlueprintPure)
 	USplineComponent* GetSplineComponent() {return Spline;}
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	URoadDataAsset* RoadData;
+
 protected:
 	virtual void AddSelf(CityTableDescriptor& Desc) const override;
+
+
 	
 private:
 	UPROPERTY(EditDefaultsOnly)

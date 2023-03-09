@@ -26,6 +26,12 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Separator;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString BaseMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString FillerMesh;
 };
 
 /**
