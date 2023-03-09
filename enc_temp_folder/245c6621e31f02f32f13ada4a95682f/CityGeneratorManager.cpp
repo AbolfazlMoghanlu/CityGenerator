@@ -7,7 +7,7 @@
 #include <FileHelper.h>
 #include <json.h>
 
-const FString RoadHeader = "Name, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh\n";
+const FString RoadHeader = "---, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh\n";
 
 ACityGeneratorManager::ACityGeneratorManager()
 {
