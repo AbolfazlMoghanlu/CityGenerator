@@ -22,7 +22,7 @@ double LatLonDistance(double Lat1, double Lon1, double Lat2, double Lon2)
 	double a = FMath::Pow(FMath::Sin(dlat / 2), 2) + FMath::Cos(Lat1) * FMath::Cos(Lat2) * FMath::Pow(FMath::Sin(dlon / 2), 2);
 	double c = 2 * FMath::Atan2(FMath::Sqrt(a), FMath::Sqrt(1 - a));
 
-	return c * EARTH_RADIUS * 1000;
+	return c * EARTH_RADIUS * 1000 * 100;
 }
 
 struct FLatLonCoordinate
@@ -49,17 +49,6 @@ struct FLatLonCoordinate
 
 	double Length;
 	double Height;
-};
-
-struct FWay
-{
-	int64 ID;
-	TArray<FVector> Points;
-	
-	FString Type		= "Unkown";
-	FString Name		= "Unkown";
-	FString NameEn		= "Unkown";
-	FString OneWay		= "Unkown";
 };
 
 struct FNode
@@ -134,21 +123,21 @@ void ParseWay(TArray<FWay>& Ways, const FXmlNode* Node, const TArray<FNode>& Poi
 		{
 			FString PointIDStr = ChildNode->GetAttribute("ref");
 			int64 PointID = FCString::Atoi64(*PointIDStr);
+			FVector Location = FindLocationAtPointID(PointID, Points);
 
-			Way.Points.Add(FindLocationAtPointID(PointID, Points));
+			Way.Points.Add(Location);
 		}
-		
+			
 	}
 
 	Ways.Add(Way);
 }
 
-void OSM_Parser::ParseFile(const FString& FilePath)
+void OSM_Parser::ParseFile(const FString& FilePath, TArray<FWay>& OutWays)
 {
 	UE_LOG(LogOSMParser, Log, TEXT("Loading file \"%s\""), *FilePath);
 
 	TArray<FNode> Nodes;
-	TArray<FWay> Ways;
 	FLatLonCoordinate LatLon;
 
 	FXmlFile XmlFile;
@@ -173,7 +162,7 @@ void OSM_Parser::ParseFile(const FString& FilePath)
 
 				else if (NodeTag == TEXT("way"))
 				{
-					ParseWay(Ways, Node, Nodes);
+					ParseWay(OutWays, Node, Nodes);
 				}
 			}
 		}
@@ -185,24 +174,23 @@ void OSM_Parser::ParseFile(const FString& FilePath)
 
 
 		// log result 
-		for (FWay& Way : Ways)
+		for (FWay& Way : OutWays)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("%i, %s, %s, %s, %s \n"), Way.ID, *Way.Name, *Way.NameEn, *Way.Type, *Way.OneWay);
+			UE_LOG(LogOSMParser, Log, TEXT("%lli, %s, %s, %s, %s \n"), Way.ID, *Way.Name, *Way.NameEn, *Way.Type, *Way.OneWay);
 
 			for (FVector n : Way.Points)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("%s,"), *n.ToString());
+				UE_LOG(LogOSMParser, Log, TEXT("%s,"), *n.ToString());
 			}
 
-			UE_LOG(LogTemp, Warning, TEXT("\n ------------------------------------------------"));
+			UE_LOG(LogOSMParser, Log, TEXT("\n ------------------------------------------------"));
 		}
 		
-		// log result 
 		for (FNode& n : Nodes)
 		{	
-			FString s = FString::Printf(TEXT("%lli"), n.ID);
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *s);
-			UE_LOG(LogTemp, Warning, TEXT("\n ------------------------------------------------"));
+			FString s = FString::Printf(TEXT("%lli, %s"), n.ID, *n.Location.ToString());
+			UE_LOG(LogOSMParser, Log, TEXT("%s"), *s);
+			UE_LOG(LogOSMParser, Log, TEXT("\n ------------------------------------------------"));
 		}
 	}
 

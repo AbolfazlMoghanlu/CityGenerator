@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CityGeneratorTool.h"
+#include "CityGeneratorDataTypes.h"
 #include "RoadTool.generated.h"
 
 class URoadDataAsset;
@@ -28,11 +29,25 @@ class CITYMAKER_API ARoadTool : public ACityGeneratorTool
 public:
 	ARoadTool();
 
+	void InitWay(const FWay& Way);
+
 	UFUNCTION(BlueprintPure)
 	USplineComponent* GetSplineComponent() {return Spline;}
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	URoadDataAsset* RoadData;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FString Type;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FString Name;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FString NameEn;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bOneWay;
 
 protected:
 	virtual void AddSelf(CityTableDescriptor& Desc) const override;

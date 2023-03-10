@@ -11,6 +11,23 @@ ARoadTool::ARoadTool()
 	SetRootComponent(Spline);
 }
 
+void ARoadTool::InitWay(const FWay& Way)
+{
+	for(FVector Point : Way.Points)
+	{
+		Spline->AddSplinePoint(Point, ESplineCoordinateSpace::World, false);
+	}
+
+	Spline->RemoveSplinePoint(1, false);
+	Spline->RemoveSplinePoint(0, true);
+	
+	// Add tags
+	Type = Way.Type;
+	Name = Way.Name;
+	NameEn = Way.NameEn;
+	bOneWay = Way.OneWay == "yes";
+}
+
 void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 {
 	FString& RoadTable = Desc.RoadsAttribute;
