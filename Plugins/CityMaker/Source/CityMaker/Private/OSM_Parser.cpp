@@ -53,8 +53,8 @@ struct FLatLonCoordinate
 
 struct FWay
 {
-	int32 ID;
-	TArray<int32> Nodes;
+	int64 ID;
+	TArray<FVector> Points;
 	
 	FString Type		= "Unkown";
 	FString Name		= "Unkown";
@@ -64,7 +64,7 @@ struct FWay
 
 struct FNode
 {
-	FNode(int32 inID, double Lat, double Lon, const FLatLonCoordinate& LatLon)
+	FNode(int64 inID, double Lat, double Lon, const FLatLonCoordinate& LatLon)
 	{
 		ID = inID;
 
@@ -74,9 +74,22 @@ struct FNode
 		Location = FVector(X, Y, 0.0);
 	}
 
-	int32 ID;
+	int64 ID;
 	FVector Location;
 };
+
+FVector FindLocationAtPointID(int64 ID, const TArray<FNode>& Points)
+{
+	for (const FNode& Point : Points)
+	{
+		if (Point.ID == ID)
+		{
+			return Point.Location;
+		}
+	}
+
+	return FVector::ZeroVector;
+}
 
 void ParseBounds(FLatLonCoordinate& LatLon, const FXmlNode* Node)
 {
@@ -90,7 +103,7 @@ void ParseBounds(FLatLonCoordinate& LatLon, const FXmlNode* Node)
 
 void ParseNode(TArray<FNode>& Nodes, const FXmlNode* Node, const FLatLonCoordinate& LatLon)
 {
-	int32 ID = FCString::Atoi(*(Node->GetAttribute("id")));
+	int64 ID = FCString::Atoi64(*(Node->GetAttribute("id")));
 	double Lat = FCString::Atod(*(Node->GetAttribute("lat")));
 	double Lon = FCString::Atod(*(Node->GetAttribute("lon")));
 
@@ -100,7 +113,7 @@ void ParseNode(TArray<FNode>& Nodes, const FXmlNode* Node, const FLatLonCoordina
 void ParseWay(TArray<FWay>& Ways, const FXmlNode* Node, const TArray<FNode>& Points)
 {
 	FWay Way;
-	Way.ID = FCString::Atoi(*(Node->GetAttribute("id")));
+	Way.ID = FCString::Atoi64(*(Node->GetAttribute("id")));
 
 	for (const FXmlNode* ChildNode : Node->GetChildrenNodes())
 	{
@@ -119,8 +132,10 @@ void ParseWay(TArray<FWay>& Ways, const FXmlNode* Node, const TArray<FNode>& Poi
 
 		else if (NodeTag == TEXT("nd"))
 		{
-			FString NodeID = ChildNode->GetAttribute("ref");
-			Way.Nodes.Add(FCString::Atoi(*NodeID));
+			FString PointIDStr = ChildNode->GetAttribute("ref");
+			int64 PointID = FCString::Atoi64(*PointIDStr);
+
+			Way.Points.Add(FindLocationAtPointID(PointID, Points));
 		}
 		
 	}
@@ -174,11 +189,19 @@ void OSM_Parser::ParseFile(const FString& FilePath)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("%i, %s, %s, %s, %s \n"), Way.ID, *Way.Name, *Way.NameEn, *Way.Type, *Way.OneWay);
 
-			for (int32 n : Way.Nodes)
+			for (FVector n : Way.Points)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("%i,"), n);
+				UE_LOG(LogTemp, Warning, TEXT("%s,"), *n.ToString());
 			}
 
+			UE_LOG(LogTemp, Warning, TEXT("\n ------------------------------------------------"));
+		}
+		
+		// log result 
+		for (FNode& n : Nodes)
+		{	
+			FString s = FString::Printf(TEXT("%lli"), n.ID);
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *s);
 			UE_LOG(LogTemp, Warning, TEXT("\n ------------------------------------------------"));
 		}
 	}
