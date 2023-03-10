@@ -22,6 +22,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString Path;
+
+	UFUNCTION(BlueprintCallable)
+	void MakeRoadsFromOsmFile(const FString& FilePath);
 	
 protected:
 	virtual void BeginPlay() override;

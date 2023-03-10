@@ -9,11 +9,11 @@ public class CityMaker : ModuleRules
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
 		PublicIncludePaths.AddRange(
-			new string[] {
-				ModuleDirectory + "/Public",
-				PluginDirectory + "/../HoudiniEngine/Source/HoudiniEngineRuntime/Public",
-            }
-			);
+            new string[] {
+                ModuleDirectory + "/Public",
+                PluginDirectory + "/../HoudiniEngine/Source/HoudiniEngineRuntime/Public",
+			}
+            );
 				
 		
 		PrivateIncludePaths.AddRange(
@@ -31,6 +31,7 @@ public class CityMaker : ModuleRules
 				"Projects",
                 "Engine",
                 "CoreUObject",
+				"XmlParser"
 			}
 			);
 			

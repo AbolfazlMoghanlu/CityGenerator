@@ -7,6 +7,8 @@
 #include <FileHelper.h>
 #include <json.h>
 
+#include "OSM_Parser.h"
+
 const FString RoadHeader = "Name, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh\n";
 
 ACityGeneratorManager::ACityGeneratorManager()
@@ -52,5 +54,10 @@ void ACityGeneratorManager::PrepareDataTable() const
  	}
 
 	FFileHelper::SaveStringToFile(CityDesc.RoadsAttribute, *Path);
+}
+
+void ACityGeneratorManager::MakeRoadsFromOsmFile(const FString& FilePath)
+{
+	OSM_Parser::ParseFile(FilePath);
 }
 
