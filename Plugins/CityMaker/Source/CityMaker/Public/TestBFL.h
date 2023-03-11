@@ -32,6 +32,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString FillerMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float RoadScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float InCutSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float OutCutSize;
 };
 
 /**

@@ -63,7 +63,7 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 	}
 
 	FString& RoadTable = Desc.RoadsAttribute;
-	auto AddRoadAttrib = [&](int32 ix)
+	auto AddRoadAttrib = [&](int32 ix, const TArray<FRoadAttribs>& RoadAttribs)
 	{
 		// RowName
 		RoadTable.Append(GetName() + "_" + FString::FromInt(ix) + ",");
@@ -82,19 +82,28 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 		UStaticMesh* FillerMesh = RoadData ? RoadData->FillerMesh : nullptr;
 		FString FillerMeshRefrence = FillerMesh ? FillerMesh->GetPathName() : "None";
-		RoadTable.Append(ix == -1 ? "None" : FillerMeshRefrence);
+		RoadTable.Append((ix == -1 ? "None" : FillerMeshRefrence) + ",");
+
+		RoadTable.Append(FString::Printf(TEXT("%f,"), ix == -1 ? 0.0 : RoadAttribs[ix].RoadScale));
+
+		RoadTable.Append(FString::Printf(TEXT("%f,"), ix == -1 ? 0.0 : RoadAttribs[ix].InCutSize));
+
+		RoadTable.Append(FString::Printf(TEXT("%f"), ix == -1 ? 0.0 : RoadAttribs[ix].OutCutSize));
 
 		RoadTable.Append("\n");
 	};
 
+	TArray<FRoadAttribs> RoadAttribs = Attributes;
+	RoadAttribs.AddDefaulted();
+
 	const int32 NumPt = Spline->GetNumberOfSplinePoints();
 	for (int32 i = 0; i < NumPt; i++)
 	{
-		AddRoadAttrib(i);
+		AddRoadAttrib(i, RoadAttribs);
 	}
 
 	// add separator
-	AddRoadAttrib(-1);
+	AddRoadAttrib(-1, RoadAttribs);
 }
 
 void ARoadTool::PostRegisterAllComponents()

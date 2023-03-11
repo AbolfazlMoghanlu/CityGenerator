@@ -10,7 +10,7 @@
 #include "OSM_Parser.h"
 
 
-const FString RoadHeader = "Name, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh\n";
+const FString RoadHeader = "Name, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh, RoadScale, InCutSize, OutCutSize\n";
 
 ACityGeneratorManager::ACityGeneratorManager()
 {
