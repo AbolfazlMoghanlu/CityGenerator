@@ -96,34 +96,33 @@ void ARoadTool::PostRegisterAllComponents()
 {
 	Super::PostInitializeComponents();
 
-	const int32 NumPt = Spline->GetNumberOfSplinePoints();
-
-	for(int32 i = 0; i < NumPt ; i++)
-	{
-		Spline->SetSplinePointType(i, ESplinePointType::Linear, false);
-	}
-
-	Spline->UpdateSpline();
-
-	if (NumPt > 1)
-	{
-		StartIcon->SetWorldLocation(Spline->GetWorldLocationAtSplinePoint(0));
-		EndIcon->SetWorldLocation(Spline->GetWorldLocationAtSplinePoint(NumPt - 1));
-	}
-
-	DirectionIcon->ClearInstances();
-
-	if (NumPt > 1)
-	{
-		for (int32 i = 0; i < NumPt - 1; i++)
-		{
-			FVector Location = Spline->GetWorldLocationAtSplinePoint(i);
-			FVector NextLocation = Spline->GetWorldLocationAtSplinePoint(i + 1);
-			FVector Tangent = (NextLocation - Location).GetSafeNormal();
-			//FRotator Rotation = Tangent.ToOrientationRotator();
-			FRotator Rotation = UKismetMathLibrary::FindLookAtRotation(Location, NextLocation);
-
-			DirectionIcon->AddInstanceWorldSpace(FTransform(Rotation, Location, FVector::OneVector));
-		}
-	}
+	//const int32 NumPt = Spline->GetNumberOfSplinePoints();
+	//
+	//for(int32 i = 0; i < NumPt ; i++)
+	//{
+	//	Spline->SetSplinePointType(i, ESplinePointType::Linear, false);
+	//}
+	//
+	//Spline->UpdateSpline();
+	//
+	//if (NumPt > 1)
+	//{
+	//	StartIcon->SetWorldLocation(Spline->GetWorldLocationAtSplinePoint(0));
+	//	EndIcon->SetWorldLocation(Spline->GetWorldLocationAtSplinePoint(NumPt - 1));
+	//}
+	//
+	//DirectionIcon->ClearInstances();
+	//
+	//if (NumPt > 1)
+	//{
+	//	for (int32 i = 0; i < NumPt - 1; i++)
+	//	{
+	//		FVector Location = Spline->GetWorldLocationAtSplinePoint(i);
+	//		FVector Tangent = Spline->GetTangentAtSplinePoint(i, ESplineCoordinateSpace::World);
+	//		FRotator Rotation = Tangent.ToOrientationRotator();
+	//
+	//		DirectionIcon->AddInstance(FTransform(Rotation, Location, FVector::OneVector), true);
+	//	}
+	//}
 }
+

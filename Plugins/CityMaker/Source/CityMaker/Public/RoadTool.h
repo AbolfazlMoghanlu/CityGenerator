@@ -56,21 +56,26 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString MaxSpeed;
 
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UStaticMeshComponent* StartIcon;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UStaticMeshComponent* EndIcon;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInstancedStaticMeshComponent* DirectionIcon;
+
+
 protected:
 	virtual void AddSelf(CityTableDescriptor& Desc) const override;
 
 	virtual void PostRegisterAllComponents() override;
+
 	
 private:
 	UPROPERTY(EditDefaultsOnly)
 	USplineComponent* Spline;
 
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* StartIcon;
 
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* EndIcon;
-
-	UPROPERTY(EditDefaultsOnly)
-	UInstancedStaticMeshComponent* DirectionIcon;
 };
