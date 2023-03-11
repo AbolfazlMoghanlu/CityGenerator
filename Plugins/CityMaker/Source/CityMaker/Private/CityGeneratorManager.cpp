@@ -41,7 +41,7 @@ void ACityGeneratorManager::PrepareCSVHeaders(CityTableDescriptor& Desc) const
 	Desc.RoadsAttribute = RoadHeader;
 }
 
-void ACityGeneratorManager::PrepareDataTable() const
+void ACityGeneratorManager::PrepareDataTable(const FString& TempFileDirectory) const
 {
 	CityTableDescriptor CityDesc;
 	PrepareCSVHeaders(CityDesc);
@@ -54,7 +54,8 @@ void ACityGeneratorManager::PrepareDataTable() const
  		}
  	}
 
-	FFileHelper::SaveStringToFile(CityDesc.RoadsAttribute, *Path);
+	FString RoadFilePath = TempFileDirectory + "Roads.csv";
+	FFileHelper::SaveStringToFile(CityDesc.RoadsAttribute, *RoadFilePath);
 }
 
 void ACityGeneratorManager::MakeRoadsFromOsmFile(const FString& FilePath)

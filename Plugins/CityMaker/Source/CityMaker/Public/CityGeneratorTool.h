@@ -19,6 +19,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bReadyToUse = false;
+
 protected:
 	virtual void BeginPlay() override;
 

@@ -57,6 +57,11 @@ void ARoadTool::InitWay(const FWay& Way)
 
 void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 {
+	if (!bReadyToUse)
+	{
+		return;
+	}
+
 	FString& RoadTable = Desc.RoadsAttribute;
 	auto AddRoadAttrib = [&](int32 ix)
 	{

@@ -19,10 +19,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-	void PrepareDataTable() const;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FString Path;
+	void PrepareDataTable(const FString& TempFileDirectory) const;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<ARoadTool> RoadClass;
