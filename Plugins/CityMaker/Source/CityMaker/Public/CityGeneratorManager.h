@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "CityGeneratorDataTypes.h"
+#include "RoadTool.h"
 #include "CityGeneratorManager.generated.h"
 
 UCLASS()
@@ -22,6 +23,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString Path;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<ARoadTool> RoadClass;
 
 	UFUNCTION(BlueprintCallable)
 	void MakeRoadsFromOsmFile(const FString& FilePath);

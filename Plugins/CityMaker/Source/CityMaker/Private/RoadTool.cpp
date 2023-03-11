@@ -3,12 +3,37 @@
 
 #include "RoadTool.h"
 #include <Components/SplineComponent.h>
+#include "Components/InstancedStaticMeshComponent.h"
 #include "RoadDataAsset.h"
+#include "Kismet/KismetMathLibrary.h"
+
+const FString StartIconPath = TEXT("/ Script / Engine.StaticMesh'/CityMaker/Icon/Road/SM_RoadStart_Icon.SM_RoadStart_Icon'");
+const FString EndIconPath = TEXT("/ Script / Engine.StaticMesh'/CityMaker/Icon/Road/SM_RoadEnd_Icon.SM_RoadEnd_Icon'");
+const FString DirectionIconPath = TEXT("/ Script / Engine.StaticMesh'/CityMaker/Icon/Road/SM_RoadDirection_Icon.SM_RoadDirection_Icon'");
 
 ARoadTool::ARoadTool()
 {
 	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
 	SetRootComponent(Spline);
+
+	UStaticMesh* StartMesh = static_cast<UStaticMesh*>(StaticLoadObject(UStaticMesh::StaticClass(), nullptr, *StartIconPath));
+	UStaticMesh* EndMesh = static_cast<UStaticMesh*>(StaticLoadObject(UStaticMesh::StaticClass(), nullptr, *EndIconPath));
+	UStaticMesh* DirectionMesh = static_cast<UStaticMesh*>(StaticLoadObject(UStaticMesh::StaticClass(), nullptr, *DirectionIconPath));
+
+	StartIcon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Start Icon"));
+	StartIcon->SetupAttachment(Spline);
+	StartIcon->SetStaticMesh(StartMesh);
+	StartIcon->SetHiddenInGame(true);
+
+	EndIcon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("End Icon"));
+	EndIcon->SetupAttachment(Spline);
+	EndIcon->SetStaticMesh(EndMesh);
+	EndIcon->SetHiddenInGame(true);
+
+	DirectionIcon = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("Direction Icon"));
+	DirectionIcon->SetupAttachment(Spline);
+	DirectionIcon->SetStaticMesh(DirectionMesh);
+	DirectionIcon->SetHiddenInGame(true);
 }
 
 void ARoadTool::InitWay(const FWay& Way)
@@ -26,6 +51,8 @@ void ARoadTool::InitWay(const FWay& Way)
 	Name = Way.Name;
 	NameEn = Way.NameEn;
 	bOneWay = Way.OneWay == "yes";
+	Service = Way.Service;
+	MaxSpeed = Way.MaxSpeed;
 }
 
 void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
@@ -63,4 +90,40 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 	// add separator
 	AddRoadAttrib(-1);
+}
+
+void ARoadTool::PostRegisterAllComponents()
+{
+	Super::PostInitializeComponents();
+
+	const int32 NumPt = Spline->GetNumberOfSplinePoints();
+
+	for(int32 i = 0; i < NumPt ; i++)
+	{
+		Spline->SetSplinePointType(i, ESplinePointType::Linear, false);
+	}
+
+	Spline->UpdateSpline();
+
+	if (NumPt > 1)
+	{
+		StartIcon->SetWorldLocation(Spline->GetWorldLocationAtSplinePoint(0));
+		EndIcon->SetWorldLocation(Spline->GetWorldLocationAtSplinePoint(NumPt - 1));
+	}
+
+	DirectionIcon->ClearInstances();
+
+	if (NumPt > 1)
+	{
+		for (int32 i = 0; i < NumPt - 1; i++)
+		{
+			FVector Location = Spline->GetWorldLocationAtSplinePoint(i);
+			FVector NextLocation = Spline->GetWorldLocationAtSplinePoint(i + 1);
+			FVector Tangent = (NextLocation - Location).GetSafeNormal();
+			//FRotator Rotation = Tangent.ToOrientationRotator();
+			FRotator Rotation = UKismetMathLibrary::FindLookAtRotation(Location, NextLocation);
+
+			DirectionIcon->AddInstanceWorldSpace(FTransform(Rotation, Location, FVector::OneVector));
+		}
+	}
 }

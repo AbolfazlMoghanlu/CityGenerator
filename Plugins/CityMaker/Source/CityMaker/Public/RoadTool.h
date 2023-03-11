@@ -8,6 +8,7 @@
 #include "RoadTool.generated.h"
 
 class URoadDataAsset;
+class UInstancedStaticMeshComponent;
 
 USTRUCT(BlueprintType)
 struct FRoadAttribs
@@ -49,13 +50,27 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bOneWay;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FString Service;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FString MaxSpeed;
+
 protected:
 	virtual void AddSelf(CityTableDescriptor& Desc) const override;
 
-
+	virtual void PostRegisterAllComponents() override;
 	
 private:
 	UPROPERTY(EditDefaultsOnly)
 	USplineComponent* Spline;
 
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* StartIcon;
+
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* EndIcon;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInstancedStaticMeshComponent* DirectionIcon;
 };

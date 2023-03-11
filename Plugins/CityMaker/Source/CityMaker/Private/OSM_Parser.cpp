@@ -117,6 +117,8 @@ void ParseWay(TArray<FWay>& Ways, const FXmlNode* Node, const TArray<FNode>& Poi
 			else if (Key == TEXT("name"))			{ Way.Name = Value; }
 			else if (Key == TEXT("name:en"))		{ Way.NameEn = Value; }
 			else if (Key == TEXT("oneway"))			{ Way.OneWay = Value; }
+			else if (Key == TEXT("service"))		{ Way.Service = Value; }
+			else if (Key == TEXT("maxspeed"))		{ Way.MaxSpeed = Value; }
 		}
 
 		else if (NodeTag == TEXT("nd"))

@@ -8,7 +8,7 @@
 #include <json.h>
 
 #include "OSM_Parser.h"
-#include "RoadTool.h"
+
 
 const FString RoadHeader = "Name, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh\n";
 
@@ -63,7 +63,7 @@ void ACityGeneratorManager::MakeRoadsFromOsmFile(const FString& FilePath)
 	OSM_Parser::ParseFile(FilePath, Ways);
 
 	UWorld* World = GetWorld();
-	if (World)
+	if (World && RoadClass)
 	{
 		for (const FWay& Way : Ways)
 		{
@@ -71,7 +71,7 @@ void ACityGeneratorManager::MakeRoadsFromOsmFile(const FString& FilePath)
 
 			ensure(Way.Points.Num() > 1);
 
-			ARoadTool* Road = World->SpawnActor<ARoadTool>(ARoadTool::StaticClass(),
+			ARoadTool* Road = World->SpawnActor<ARoadTool>(RoadClass,
 				Way.Points[0], FRotator::ZeroRotator, SpawnParams);
 
 			Road->InitWay(Way);

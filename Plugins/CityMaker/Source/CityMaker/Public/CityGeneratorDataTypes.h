@@ -16,8 +16,10 @@ struct FWay
 	int64 ID;
 	TArray<FVector> Points;
 
-	FString Type = "Unkown";
-	FString Name = "Unkown";
-	FString NameEn = "Unkown";
-	FString OneWay = "Unkown";
+	FString Type		= "Unkown";
+	FString Name		= "Unkown";
+	FString NameEn		= "Unkown";
+	FString OneWay		= "Unkown";
+	FString Service		= "Unkown";
+	FString MaxSpeed	= "Unkown";
 };
