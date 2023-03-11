@@ -75,13 +75,13 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 		
 		// Separator
 		RoadTable.Append(FString::Printf(TEXT("%i,"), ix == -1 ? 1 : 0));
-
+		
 		UStaticMesh* BaseMesh = RoadData ? RoadData->BaseMesh : nullptr;
-		FString BaseMeshRefrence = BaseMesh ? BaseMesh->GetFullName() : "None";
+		FString BaseMeshRefrence = BaseMesh ? BaseMesh->GetPathName() : "None";
 		RoadTable.Append((ix == -1 ? "None" : BaseMeshRefrence) + ",");
 
 		UStaticMesh* FillerMesh = RoadData ? RoadData->FillerMesh : nullptr;
-		FString FillerMeshRefrence = FillerMesh ? FillerMesh->GetFullName() : "None";
+		FString FillerMeshRefrence = FillerMesh ? FillerMesh->GetPathName() : "None";
 		RoadTable.Append(ix == -1 ? "None" : FillerMeshRefrence);
 
 		RoadTable.Append("\n");
