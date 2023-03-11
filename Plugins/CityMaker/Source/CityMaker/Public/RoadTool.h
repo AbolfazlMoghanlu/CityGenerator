@@ -17,6 +17,12 @@ struct FRoadAttribs
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float RoadScale = 1;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float InCutSize = 0.1;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float OutCutSize = 0.9;
 };
 
 /**
@@ -56,6 +62,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString MaxSpeed;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FRoadAttribs> Attributes;
+
+	// ----------------------------------------------------
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UStaticMeshComponent* StartIcon;
