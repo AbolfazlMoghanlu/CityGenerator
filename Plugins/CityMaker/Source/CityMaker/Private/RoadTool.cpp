@@ -88,7 +88,11 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 		RoadTable.Append(FString::Printf(TEXT("%f,"), ix == -1 ? 0.0 : RoadAttribs[ix].InCutSize));
 
-		RoadTable.Append(FString::Printf(TEXT("%f"), ix == -1 ? 0.0 : RoadAttribs[ix].OutCutSize));
+		RoadTable.Append(FString::Printf(TEXT("%f,"), ix == -1 ? 0.0 : RoadAttribs[ix].OutCutSize));
+
+		UMaterialInterface* CurveMaterial = RoadData ? RoadData->CurveMaterial : nullptr;
+		FString CurveMaterialRefrence = CurveMaterial ? CurveMaterial->GetPathName() : "None";
+		RoadTable.Append((ix == -1 ? "None" : CurveMaterialRefrence));
 
 		RoadTable.Append("\n");
 	};

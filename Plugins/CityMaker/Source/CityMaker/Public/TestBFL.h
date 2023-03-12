@@ -41,6 +41,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float OutCutSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString CurveMaterial;
 };
 
 /**
