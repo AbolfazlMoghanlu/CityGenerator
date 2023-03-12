@@ -24,3 +24,17 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UMaterialInterface* CurveMaterial;
 };
+
+
+UCLASS()
+class CITYMAKER_API UPedestrianLineDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UStaticMesh* BaseMesh;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float LinesDistance;
+};

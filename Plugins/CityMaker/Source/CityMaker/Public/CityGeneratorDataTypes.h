@@ -9,6 +9,7 @@
 struct CityTableDescriptor
 {
 	FString RoadsAttribute;
+	FString PedestrianLineAttributes;
 };
 
 struct FWay

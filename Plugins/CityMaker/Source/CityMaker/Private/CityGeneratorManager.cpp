@@ -14,6 +14,9 @@ const FString RoadHeader =
 	"Name, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh, RoadScale, InCutSize, OutCutSize,"
 	"CurveMaterial\n";
 
+const FString PedestrianLineHeader =
+"Name, Position_x, Position_y, Position_z, BaseMesh, LinesDistance\n";
+
 ACityGeneratorManager::ACityGeneratorManager()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -41,6 +44,9 @@ void ACityGeneratorManager::PrepareCSVHeaders(CityTableDescriptor& Desc) const
 {
 	Desc.RoadsAttribute.Reserve(1000);
 	Desc.RoadsAttribute = RoadHeader;
+
+	Desc.PedestrianLineAttributes.Reserve(1000);
+	Desc.PedestrianLineAttributes = PedestrianLineHeader;
 }
 
 void ACityGeneratorManager::PrepareDataTable(const FString& TempFileDirectory) const
@@ -58,6 +64,9 @@ void ACityGeneratorManager::PrepareDataTable(const FString& TempFileDirectory) c
 
 	FString RoadFilePath = TempFileDirectory + "Roads.csv";
 	FFileHelper::SaveStringToFile(CityDesc.RoadsAttribute, *RoadFilePath);
+
+	FString PedestrianLineFilePath = TempFileDirectory + "PedestrianLines.csv";
+	FFileHelper::SaveStringToFile(CityDesc.PedestrianLineAttributes, *PedestrianLineFilePath);
 }
 
 void ACityGeneratorManager::MakeRoadsFromOsmFile(const FString& FilePath)

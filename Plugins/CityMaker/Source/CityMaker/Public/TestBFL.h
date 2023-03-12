@@ -46,6 +46,29 @@ public:
 	FString CurveMaterial;
 };
 
+USTRUCT(BlueprintType)
+struct FPedestrianLineDesc : public FTableRowBase
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Position_x;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Position_y;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Position_z;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString BaseMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float LinesDistance;
+};
+
+
 /**
  * 
  */
