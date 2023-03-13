@@ -44,6 +44,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	URoadDataAsset* RoadData;
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	int64 ID;
+
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString Type;
 

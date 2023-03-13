@@ -47,6 +47,7 @@ void ARoadTool::InitWay(const FWay& Way)
 	Spline->RemoveSplinePoint(0, true);
 	
 	// Add tags
+	ID = Way.ID;
 	Type = Way.Type;
 	Name = Way.Name;
 	NameEn = Way.NameEn;
@@ -84,11 +85,14 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 		FString FillerMeshRefrence = FillerMesh ? FillerMesh->GetPathName() : "None";
 		RoadTable.Append((ix == -1 ? "None" : FillerMeshRefrence) + ",");
 
-		RoadTable.Append(FString::Printf(TEXT("%f,"), ix == -1 ? 0.0 : RoadAttribs[ix].RoadScale));
+		float RoadScale = ix == -1 ? 0.0 : ix < RoadAttribs.Num() ? RoadAttribs[ix].RoadScale : 0.0; 
+		RoadTable.Append(FString::Printf(TEXT("%f,"), RoadScale));
 
-		RoadTable.Append(FString::Printf(TEXT("%f,"), ix == -1 ? 0.0 : RoadAttribs[ix].InCutSize));
+		float InCutSize = ix == -1 ? 0.0 : ix < RoadAttribs.Num() ? RoadAttribs[ix].InCutSize : 0.0;
+		RoadTable.Append(FString::Printf(TEXT("%f,"), InCutSize));
 
-		RoadTable.Append(FString::Printf(TEXT("%f,"), ix == -1 ? 0.0 : RoadAttribs[ix].OutCutSize));
+		float OutCutSize = ix == -1 ? 0.0 : ix < RoadAttribs.Num() ? RoadAttribs[ix].OutCutSize : 0.0;
+		RoadTable.Append(FString::Printf(TEXT("%f,"), OutCutSize));
 
 		UMaterialInterface* CurveMaterial = RoadData ? RoadData->CurveMaterial : nullptr;
 		FString CurveMaterialRefrence = CurveMaterial ? CurveMaterial->GetPathName() : "None";
