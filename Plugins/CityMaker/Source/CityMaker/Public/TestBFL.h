@@ -44,6 +44,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString CurveMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString BufferMesh;
 };
 
 USTRUCT(BlueprintType)

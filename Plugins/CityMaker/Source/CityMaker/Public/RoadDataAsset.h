@@ -23,6 +23,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UMaterialInterface* CurveMaterial;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UStaticMesh* BufferMesh;
 };
 
 

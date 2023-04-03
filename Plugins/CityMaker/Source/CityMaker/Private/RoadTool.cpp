@@ -96,7 +96,11 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 		UMaterialInterface* CurveMaterial = RoadData ? RoadData->CurveMaterial : nullptr;
 		FString CurveMaterialRefrence = CurveMaterial ? CurveMaterial->GetPathName() : "None";
-		RoadTable.Append((ix == -1 ? "None" : CurveMaterialRefrence));
+		RoadTable.Append((ix == -1 ? "None" : CurveMaterialRefrence) + ",");
+
+		UStaticMesh* BufferMesh = RoadData ? RoadData->BufferMesh : nullptr;
+		FString BufferMeshRefrence = BufferMesh ? BufferMesh->GetPathName() : "None";
+		RoadTable.Append((ix == -1 ? "None" : BufferMeshRefrence));
 
 		RoadTable.Append("\n");
 	};
