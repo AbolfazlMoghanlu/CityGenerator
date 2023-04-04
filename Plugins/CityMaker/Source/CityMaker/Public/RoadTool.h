@@ -8,6 +8,7 @@
 #include "RoadTool.generated.h"
 
 class URoadDataAsset;
+class USidewalkDataAsset;
 class UInstancedStaticMeshComponent;
 
 USTRUCT(BlueprintType)
@@ -43,6 +44,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	URoadDataAsset* RoadData;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	USidewalkDataAsset* RightSidewalkData;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	USidewalkDataAsset* LeftSidewalkData;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	int64 ID;

@@ -100,7 +100,41 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 		UStaticMesh* BufferMesh = RoadData ? RoadData->BufferMesh : nullptr;
 		FString BufferMeshRefrence = BufferMesh ? BufferMesh->GetPathName() : "None";
-		RoadTable.Append((ix == -1 ? "None" : BufferMeshRefrence));
+		RoadTable.Append((ix == -1 ? "None" : BufferMeshRefrence) + ",");
+
+		FString RightSidewalkModuleString = "None";
+		if (RightSidewalkData)
+		{
+			if (RightSidewalkData->SidewalkModules.Num() > 0)
+			{
+				RightSidewalkModuleString = "";
+				for (UStaticMesh* Mesh : RightSidewalkData->SidewalkModules)
+				{
+					RightSidewalkModuleString.Append(Mesh->GetPathName());
+					RightSidewalkModuleString.Append("@");
+				}
+			}	
+		}
+
+		RoadTable.Append((ix == -1 ? "None" : RightSidewalkModuleString) + ",");
+
+
+		FString LeftSidewalkModuleString = "None";
+		if (LeftSidewalkData)
+		{
+			if (LeftSidewalkData->SidewalkModules.Num() > 0)
+			{
+				LeftSidewalkModuleString = "";
+				for (UStaticMesh* Mesh : LeftSidewalkData->SidewalkModules)
+				{
+					LeftSidewalkModuleString.Append(Mesh->GetPathName());
+					LeftSidewalkModuleString.Append("@");
+				}
+			}
+		}
+
+		RoadTable.Append((ix == -1 ? "None" : RightSidewalkModuleString));
+
 
 		RoadTable.Append("\n");
 	};

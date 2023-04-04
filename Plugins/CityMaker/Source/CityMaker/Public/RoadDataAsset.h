@@ -28,6 +28,19 @@ public:
 	UStaticMesh* BufferMesh;
 };
 
+UCLASS()
+class CITYMAKER_API USidewalkDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+
+public:
+
+	// module 0 is also filler 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<UStaticMesh*> SidewalkModules;
+};
+
 
 UCLASS()
 class CITYMAKER_API UPedestrianLineDataAsset : public UDataAsset
