@@ -49,10 +49,10 @@ public:
 	FString BufferMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString RightSideWalkModules;
+	FString RightSidewalkModules;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString LeftSideWalkModules;
+	FString LeftSidewalkModules;
 };
 
 USTRUCT(BlueprintType)

@@ -108,6 +108,7 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 			if (RightSidewalkData->SidewalkModules.Num() > 0)
 			{
 				RightSidewalkModuleString = "";
+
 				for (UStaticMesh* Mesh : RightSidewalkData->SidewalkModules)
 				{
 					RightSidewalkModuleString.Append(Mesh->GetPathName());
@@ -125,6 +126,7 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 			if (LeftSidewalkData->SidewalkModules.Num() > 0)
 			{
 				LeftSidewalkModuleString = "";
+
 				for (UStaticMesh* Mesh : LeftSidewalkData->SidewalkModules)
 				{
 					LeftSidewalkModuleString.Append(Mesh->GetPathName());
@@ -132,8 +134,8 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 				}
 			}
 		}
-
-		RoadTable.Append((ix == -1 ? "None" : RightSidewalkModuleString));
+		
+		RoadTable.Append((ix == -1 ? "None" : LeftSidewalkModuleString));
 
 
 		RoadTable.Append("\n");
