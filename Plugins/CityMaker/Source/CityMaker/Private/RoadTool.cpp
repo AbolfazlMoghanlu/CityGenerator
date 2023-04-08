@@ -120,7 +120,7 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 		RoadTable.Append((ix == -1 ? "None" : RightSidewalkModuleString) + ",");
 
 
-		FString LeftSidewalkModuleString = "None";
+		FString LeftSidewalkModuleString = "None"; 
 		if (LeftSidewalkData)
 		{
 			if (LeftSidewalkData->SidewalkModules.Num() > 0)
