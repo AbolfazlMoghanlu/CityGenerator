@@ -135,7 +135,60 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 			}
 		}
 		
-		RoadTable.Append((ix == -1 ? "None" : LeftSidewalkModuleString));
+		RoadTable.Append((ix == -1 ? "None" : LeftSidewalkModuleString) + ",");
+
+		FString LineString = "";
+
+		if (ix != -1)
+		{
+			if (RoadAttribs.Num() > ix)
+			{
+				const TArray<FLineDescription>& lines = RoadAttribs[ix].Lines;
+
+				for (const FLineDescription& Line : lines)
+				{
+					if (Line.LineData)
+					{
+						FString LineBaseMesh = "None";
+						if (Line.LineData->BaseMesh)
+						{
+							LineBaseMesh = Line.LineData->BaseMesh->GetPathName();
+						}
+						LineString.Append(LineBaseMesh);
+						LineString.Append("%");
+						
+						FString Checker = Line.LineData->bChecker ? "1%" : "0%";
+						LineString.Append(Checker);
+
+						FString FillerMaterial = "None";
+						if (Line.LineData->FillerMaterial)
+						{
+							FillerMaterial = Line.LineData->FillerMaterial->GetPathName();
+						}
+						LineString.Append(FillerMaterial);
+						LineString.Append("%");
+
+						LineString.Append(FString::Printf(TEXT("%f"), Line.LineData->Width));
+						LineString.Append("%");
+
+						LineString.Append(FString::Printf(TEXT("%f"), Line.LineData->Length));
+						LineString.Append("%");
+					}
+
+					FString AnchorType = Line.AnchorType == ELineAnchorType::Left ? "Left" 
+						: Line.AnchorType == ELineAnchorType::Center ? "Center" : "Right";
+					LineString.Append(AnchorType);
+					LineString.Append("%");
+
+					FString DistanceFromAnchor = FString::Printf(TEXT("%f"), Line.DistanceFromAnchor);
+					LineString.Append(DistanceFromAnchor);
+					
+					LineString.Append("@");
+				}
+			}
+		}
+
+		RoadTable.Append(LineString);
 
 
 		RoadTable.Append("\n");

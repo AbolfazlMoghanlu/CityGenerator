@@ -53,6 +53,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString LeftSidewalkModules;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString LinesParameter;
 };
 
 USTRUCT(BlueprintType)

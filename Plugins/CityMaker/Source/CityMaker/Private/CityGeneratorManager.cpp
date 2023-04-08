@@ -12,7 +12,7 @@
 
 const FString RoadHeader = 
 	"Name, Position_x, Position_y, Position_z, Separator, BaseMesh, FillerMesh, RoadScale, InCutSize, OutCutSize,"
-	"CurveMaterial, BufferMesh, RightSidewalkModules, LeftSidewalkModules\n";
+	"CurveMaterial, BufferMesh, RightSidewalkModules, LeftSidewalkModules, LinesParameter\n";
 
 const FString PedestrianLineHeader =
 "Name, Position_x, Position_y, Position_z, BaseMesh, LinesDistance\n";
