@@ -9,7 +9,31 @@
 
 class URoadDataAsset;
 class USidewalkDataAsset;
+class ULineDataAsset;
 class UInstancedStaticMeshComponent;
+
+UENUM(BlueprintType)
+enum class ELineAnchorType : uint8
+{
+	Left,
+	Center,
+	Right
+};
+
+USTRUCT(BlueprintType)
+struct FLineDescription
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	ULineDataAsset* LineData;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	ELineAnchorType AnchorType;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float DistanceFromAnchor = 50.0f;
+};
 
 USTRUCT(BlueprintType)
 struct FRoadAttribs
@@ -24,6 +48,9 @@ struct FRoadAttribs
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float OutCutSize = 0.9;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FLineDescription> Lines;
 };
 
 /**

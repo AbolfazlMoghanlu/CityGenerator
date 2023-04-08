@@ -54,3 +54,25 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float LinesDistance;
 };
+
+UCLASS(BlueprintType)
+class CITYMAKER_API ULineDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UStaticMesh* BaseMesh;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bChecker = true;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UMaterialInterface* FillerMaterial;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float Width = 35.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float Length = 100.0f;
+};
