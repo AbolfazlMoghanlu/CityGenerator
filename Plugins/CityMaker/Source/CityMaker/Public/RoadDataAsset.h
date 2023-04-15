@@ -76,3 +76,23 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Length = 100.0f;
 };
+
+UCLASS(BlueprintType)
+class CITYMAKER_API URoadObstacleDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+
+public: 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UStaticMesh* Module;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float BoundSize = 100;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float InstanceDistance = 150;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bMaintainLastInstance = true;
+};

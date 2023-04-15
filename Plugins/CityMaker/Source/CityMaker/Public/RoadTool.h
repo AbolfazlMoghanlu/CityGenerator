@@ -10,6 +10,7 @@
 class URoadDataAsset;
 class USidewalkDataAsset;
 class ULineDataAsset;
+class URoadObstacleDataAsset;
 class UInstancedStaticMeshComponent;
 
 UENUM(BlueprintType)
@@ -36,6 +37,27 @@ struct FLineDescription
 };
 
 USTRUCT(BlueprintType)
+struct FObstacleDescription
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	URoadObstacleDataAsset* ObstacleData;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	ELineAnchorType AnchorType;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float DistanceFromAnchor = 50.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float UOffset = 0.0f;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float ZOffset = 0.0f;
+};
+
+USTRUCT(BlueprintType)
 struct FRoadAttribs
 {
 	GENERATED_BODY()
@@ -51,6 +73,9 @@ struct FRoadAttribs
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<FLineDescription> Lines;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FObstacleDescription> Obstacles;
 };
 
 /**

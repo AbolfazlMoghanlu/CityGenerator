@@ -188,8 +188,62 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 			}
 		}
 
-		RoadTable.Append(LineString);
+		RoadTable.Append(LineString); 
+		RoadTable.Append(",");
 
+
+		FString ObstacleString = "";
+
+		if (ix != -1)
+		{
+			if (RoadAttribs.Num() > ix)
+			{
+				const TArray<FObstacleDescription>& obstacles = RoadAttribs[ix].Obstacles;
+
+				for (const FObstacleDescription& obstacle : obstacles)
+				{
+					if (obstacle.ObstacleData)
+					{
+						FString ObstacleBaseMesh = "None";
+						if (obstacle.ObstacleData->Module)
+						{
+							ObstacleBaseMesh = obstacle.ObstacleData->Module->GetPathName();
+						}
+						ObstacleString.Append(ObstacleBaseMesh);
+						ObstacleString.Append("%");
+
+						ObstacleString.Append(FString::Printf(TEXT("%f"), obstacle.ObstacleData->BoundSize));
+						ObstacleString.Append("%");
+
+						ObstacleString.Append(FString::Printf(TEXT("%f"), obstacle.ObstacleData->InstanceDistance));
+						ObstacleString.Append("%");
+
+						FString MaintainLastInstance = obstacle.ObstacleData->bMaintainLastInstance ? "1%" : "0%";
+						ObstacleString.Append(MaintainLastInstance);
+					}
+
+					FString AnchorType = obstacle.AnchorType == ELineAnchorType::Left ? "Left"
+						: obstacle.AnchorType == ELineAnchorType::Center ? "Center" : "Right";
+					ObstacleString.Append(AnchorType);
+					ObstacleString.Append("%");
+
+					FString DistanceFromAnchor = FString::Printf(TEXT("%f"), obstacle.DistanceFromAnchor);
+					ObstacleString.Append(DistanceFromAnchor);
+					ObstacleString.Append("%");
+
+					FString UOffset = FString::Printf(TEXT("%f"), obstacle.UOffset);
+					ObstacleString.Append(UOffset);
+					ObstacleString.Append("%");
+
+					FString ZOffset = FString::Printf(TEXT("%f"), obstacle.ZOffset);
+					ObstacleString.Append(ZOffset);
+
+					ObstacleString.Append("@");
+				}
+			}
+		}
+
+		RoadTable.Append(ObstacleString);
 
 		RoadTable.Append("\n");
 	};

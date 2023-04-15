@@ -56,6 +56,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString LinesParameter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ObstaclesParameter;
 };
 
 USTRUCT(BlueprintType)
