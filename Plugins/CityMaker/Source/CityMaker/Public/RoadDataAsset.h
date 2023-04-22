@@ -55,7 +55,7 @@ public:
 	FTransform Transform;
 };
 
-UCLASS()
+UCLASS(BlueprintType)
 class CITYMAKER_API USidewalkModuleDefinitionDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
