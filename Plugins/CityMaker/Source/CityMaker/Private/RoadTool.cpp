@@ -267,11 +267,13 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 						FVector Location = Module.Transform.GetLocation();
 						FRotator Rotation = Module.Transform.Rotator();
+						FQuat Quat = FQuat(Rotation);
 						FVector Scale = Module.Transform.GetScale3D();
 
-						LeftSidewalkModuleStr.Append(FString::Printf(TEXT("%f!%f!%f!%f!%f!%f!%f!%f!%f"),
+						LeftSidewalkModuleStr.Append(FString::Printf(TEXT("%f!%f!%f!%f!%f!%f!%f!%f!%f!%f"),
 							Location.X, Location.Y, Location.Z,
-							Rotation.Pitch, Rotation.Yaw, Rotation.Roll,
+							//Rotation.Pitch, Rotation.Yaw, Rotation.Roll,
+							Quat.X, Quat.Y, Quat.Z, Quat.W,
 							Scale.X, Scale.Y, Scale.Z));
 
 						LeftSidewalkModuleStr.Append("%");
@@ -298,11 +300,13 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 
 						FVector Location = Module.Transform.GetLocation();
 						FRotator Rotation = Module.Transform.Rotator();
+						FQuat Quat = FQuat(Rotation);
 						FVector Scale = Module.Transform.GetScale3D();
 
-						RightSidewalkModuleStr.Append(FString::Printf(TEXT("%f!%f!%f!%f!%f!%f!%f!%f!%f"),
+						RightSidewalkModuleStr.Append(FString::Printf(TEXT("%f!%f!%f!%f!%f!%f!%f!%f!%f!%f"),
 							Location.X, Location.Y, Location.Z,
-							Rotation.Pitch, Rotation.Yaw, Rotation.Roll,
+							//Rotation.Pitch, Rotation.Yaw, Rotation.Roll,
+							Quat.X, Quat.Y, Quat.Z, Quat.W,
 							Scale.X, Scale.Y, Scale.Z));
 
 						RightSidewalkModuleStr.Append("%");
