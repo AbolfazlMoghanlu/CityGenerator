@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TestBFL.h"
+#include "CityMakerHelperBFL.h"
 #include "UnrealEd.h"
 #include "Factories/ReimportDataTableFactory.h"
 #include "HoudiniAssetComponent.h"
 
-bool UTestBFL::ReimportDataTable(UDataTable* DataTable, const FString& InFilePath)
+bool UCityMakerHelperBFL::ReimportDataTable(UDataTable* DataTable, const FString& InFilePath)
 {
 #if WITH_EDITOR
 	if (!DataTable)
@@ -30,7 +30,7 @@ bool UTestBFL::ReimportDataTable(UDataTable* DataTable, const FString& InFilePat
 #endif
 }
 
-void UTestBFL::ForceRecookHoudiniAsset(UHoudiniAssetComponent* Comp)
+void UCityMakerHelperBFL::ForceRecookHoudiniAsset(UHoudiniAssetComponent* Comp)
 {
 	Comp->MarkAsNeedCook();
 }
