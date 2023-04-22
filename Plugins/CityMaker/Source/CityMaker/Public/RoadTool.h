@@ -11,6 +11,7 @@ class URoadDataAsset;
 class USidewalkDataAsset;
 class ULineDataAsset;
 class URoadObstacleDataAsset;
+class USidewalkModuleDefinitionDataAsset;
 class UInstancedStaticMeshComponent;
 
 UENUM(BlueprintType)
@@ -76,6 +77,12 @@ struct FRoadAttribs
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<FObstacleDescription> Obstacles;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<USidewalkModuleDefinitionDataAsset*> RightSidewalks;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<USidewalkModuleDefinitionDataAsset*> LeftSidewalks;
 };
 
 /**
@@ -96,12 +103,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	URoadDataAsset* RoadData;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	USidewalkDataAsset* RightSidewalkData;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	USidewalkDataAsset* LeftSidewalkData;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	int64 ID;

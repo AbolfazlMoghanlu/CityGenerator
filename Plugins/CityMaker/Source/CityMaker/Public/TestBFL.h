@@ -59,6 +59,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString ObstaclesParameter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString LeftSidewalkModule;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString LeftSidewalkBounds;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString RightSidewalkModule;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString RightSidewalkBounds;
 };
 
 USTRUCT(BlueprintType)

@@ -103,37 +103,37 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 		RoadTable.Append((ix == -1 ? "None" : BufferMeshRefrence) + ",");
 
 		FString RightSidewalkModuleString = "None";
-		if (RightSidewalkData)
-		{
-			if (RightSidewalkData->SidewalkModules.Num() > 0)
-			{
-				RightSidewalkModuleString = "";
-
-				for (UStaticMesh* Mesh : RightSidewalkData->SidewalkModules)
-				{
-					RightSidewalkModuleString.Append(Mesh->GetPathName());
-					RightSidewalkModuleString.Append("@");
-				}
-			}	
-		}
+// 		if (RightSidewalkData)
+// 		{
+// 			if (RightSidewalkData->SidewalkModules.Num() > 0)
+// 			{
+// 				RightSidewalkModuleString = "";
+// 
+// 				for (UStaticMesh* Mesh : RightSidewalkData->SidewalkModules)
+// 				{
+// 					RightSidewalkModuleString.Append(Mesh->GetPathName());
+// 					RightSidewalkModuleString.Append("@");
+// 				}
+// 			}	
+// 		}
 
 		RoadTable.Append((ix == -1 ? "None" : RightSidewalkModuleString) + ",");
 
 
 		FString LeftSidewalkModuleString = "None"; 
-		if (LeftSidewalkData)
-		{
-			if (LeftSidewalkData->SidewalkModules.Num() > 0)
-			{
-				LeftSidewalkModuleString = "";
-
-				for (UStaticMesh* Mesh : LeftSidewalkData->SidewalkModules)
-				{
-					LeftSidewalkModuleString.Append(Mesh->GetPathName());
-					LeftSidewalkModuleString.Append("@");
-				}
-			}
-		}
+// 		if (LeftSidewalkData)
+// 		{
+// 			if (LeftSidewalkData->SidewalkModules.Num() > 0)
+// 			{
+// 				LeftSidewalkModuleString = "";
+// 
+// 				for (UStaticMesh* Mesh : LeftSidewalkData->SidewalkModules)
+// 				{
+// 					LeftSidewalkModuleString.Append(Mesh->GetPathName());
+// 					LeftSidewalkModuleString.Append("@");
+// 				}
+// 			}
+// 		}
 		
 		RoadTable.Append((ix == -1 ? "None" : LeftSidewalkModuleString) + ",");
 
@@ -244,6 +244,91 @@ void ARoadTool::AddSelf(CityTableDescriptor& Desc) const
 		}
 
 		RoadTable.Append(ObstacleString);
+		RoadTable.Append(",");
+
+
+		FString LeftSidewalkModuleStr = "";
+		FString LeftSidewalkBoundsStr = "";
+		FString RightSidewalkModuleStr = "";
+		FString RightSidewalkBoundsStr = "";
+		
+		if (ix != -1)
+		{
+			if (RoadAttribs.Num() > ix)
+			{
+				const TArray<USidewalkModuleDefinitionDataAsset*>& LeftSidewalks = RoadAttribs[ix].LeftSidewalks;
+
+				for (const USidewalkModuleDefinitionDataAsset* sidewalk : LeftSidewalks)
+				{
+					for (FSidewalkModule Module : sidewalk->SidewalkModules)
+					{
+						LeftSidewalkModuleStr.Append(Module.Mesh ? Module.Mesh->GetPathName() : "None");
+						LeftSidewalkModuleStr.Append("!");
+
+						FVector Location = Module.Transform.GetLocation();
+						FRotator Rotation = Module.Transform.Rotator();
+						FVector Scale = Module.Transform.GetScale3D();
+
+						LeftSidewalkModuleStr.Append(FString::Printf(TEXT("%f!%f!%f!%f!%f!%f!%f!%f!%f"),
+							Location.X, Location.Y, Location.Z,
+							Rotation.Pitch, Rotation.Yaw, Rotation.Roll,
+							Scale.X, Scale.Y, Scale.Z));
+
+						LeftSidewalkModuleStr.Append("%");
+					}
+
+					LeftSidewalkBoundsStr.Append(FString::Printf(TEXT("%f"), sidewalk->Bound));
+					LeftSidewalkBoundsStr.Append("@");
+
+					LeftSidewalkModuleStr.Append("@");
+				}
+			}
+
+
+			if (RoadAttribs.Num() > ix)
+			{
+				const TArray<USidewalkModuleDefinitionDataAsset*>& RightSidewalks = RoadAttribs[ix].RightSidewalks;
+
+				for (const USidewalkModuleDefinitionDataAsset* sidewalk : RightSidewalks)
+				{
+					for (FSidewalkModule Module : sidewalk->SidewalkModules)
+					{
+						RightSidewalkModuleStr.Append(Module.Mesh ? Module.Mesh->GetPathName() : "None");
+						RightSidewalkModuleStr.Append("!");
+
+						FVector Location = Module.Transform.GetLocation();
+						FRotator Rotation = Module.Transform.Rotator();
+						FVector Scale = Module.Transform.GetScale3D();
+
+						RightSidewalkModuleStr.Append(FString::Printf(TEXT("%f!%f!%f!%f!%f!%f!%f!%f!%f"),
+							Location.X, Location.Y, Location.Z,
+							Rotation.Pitch, Rotation.Yaw, Rotation.Roll,
+							Scale.X, Scale.Y, Scale.Z));
+
+						RightSidewalkModuleStr.Append("%");
+					}
+
+					RightSidewalkBoundsStr.Append(FString::Printf(TEXT("%f"), sidewalk->Bound));
+					RightSidewalkBoundsStr.Append("@");
+
+					RightSidewalkModuleStr.Append("@");
+				}
+			}
+		}
+		
+		RoadTable.Append(LeftSidewalkModuleStr);
+		RoadTable.Append(",");
+
+		RoadTable.Append(LeftSidewalkBoundsStr);
+		RoadTable.Append(",");
+
+
+		RoadTable.Append(RightSidewalkModuleStr);
+		RoadTable.Append(",");
+
+		RoadTable.Append(RightSidewalkBoundsStr);
+		
+
 
 		RoadTable.Append("\n");
 	};

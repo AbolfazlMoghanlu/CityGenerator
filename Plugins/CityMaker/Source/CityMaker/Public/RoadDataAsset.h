@@ -42,6 +42,33 @@ public:
 };
 
 
+USTRUCT(BlueprintType)
+struct FSidewalkModule
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UStaticMesh* Mesh;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FTransform Transform;
+};
+
+UCLASS()
+class CITYMAKER_API USidewalkModuleDefinitionDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FSidewalkModule> SidewalkModules;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float Bound;
+};
+
+
 UCLASS()
 class CITYMAKER_API UPedestrianLineDataAsset : public UDataAsset
 {
